@@ -1,29 +1,29 @@
 import { Program, Provider } from '@project-serum/anchor';
 import { PublicKey } from '@solana/web3.js';
-import { VoterStakeRegistry, IDL } from './voter_stake_registry';
+import { PluginBoilerplate, IDL } from '../target/types/plugin_boilerplate';
 
-export const VSR_ID = new PublicKey(
-  '4Q6WW2ouZ6V3iaNm56MTd5n2tnTm4C5fiH8miFHnAFHo',
+export const PLUGIN_ID = new PublicKey(
+  '6DNF4tFLynLJhJh78dCNkft9A5Sd49cmypD2SZ4Hfu7S',
 );
 
-export class VsrClient {
+export class PluginClient {
   constructor(
-    public program: Program<VoterStakeRegistry>,
+    public program: Program<PluginBoilerplate>,
     public devnet?: boolean,
   ) {}
 
   static async connect(
     provider: Provider,
     devnet?: boolean,
-  ): Promise<VsrClient> {
+  ): Promise<PluginClient> {
     // alternatively we could fetch from chain
     // const idl = await Program.fetchIdl(VSR_ID, provider);
     const idl = IDL;
 
-    return new VsrClient(
-      new Program<VoterStakeRegistry>(
-        idl as VoterStakeRegistry,
-        VSR_ID,
+    return new PluginClient(
+      new Program<PluginBoilerplate>(
+        idl as PluginBoilerplate,
+        PLUGIN_ID,
         provider,
       ),
       devnet,

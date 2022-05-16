@@ -1,6 +1,6 @@
 # Description
 
-Voter-stake-registry is a voter weight addin for Solana's
+plugin-boilerplate is a voter weight addin for Solana's
 [spl-governance program](https://github.com/solana-labs/solana-program-library/tree/master/governance).
 
 With the addin enabled, the governance realm authority can:
@@ -35,8 +35,8 @@ Users can:
 ## Rust
 * Built and developed using - rust stable(`rustc 1.57.0 (f1edd0429 2021-11-29)`)
 * Run rust based tests - `cargo test-bpf`
-* `run-generate-anchor-types.sh` generates latest anchor types file and writes to `./voter_stake_registry.ts`
-* To install the typescript client, do - `yarn add @blockworks-foundation/voter-stake-registry-client`
+* `run-generate-anchor-types.sh` generates latest anchor types file and writes to `./plugin_boilerplate.ts`
+* To install the typescript client, do - `yarn add @civic/plugin-boilerplate-client`
 * usage
 
 ## Node/Typescript
@@ -45,7 +45,7 @@ Users can:
 ```
 import { Provider, Wallet } from '@project-serum/anchor';
 import { Connection, Keypair } from '@solana/web3.js';
-import { VsrClient } from '@blockworks-foundation/voter-stake-registry-client';
+import { VsrClient } from '@civic/plugin-boilerplate-client';
 
 async function main() {
   const options = Provider.defaultOptions();
@@ -60,16 +60,16 @@ async function main() {
 
 # Deployment
 
-Users will likely want to compile their own voter-stake-registry and deploy it to an address they control.
+Users will likely want to compile their own plugin-boilerplate and deploy it to an address they control.
 
 Before compiling, look at:
 - `Registrar::voting_mints`: The length of this array defines the number of configurable voting mints. Adjust as needed.
 
 ## Devnet
 
-For testing purposes, an instance of voter-stake-registry is deployed on devnet:
+For testing purposes, an instance of plugin-boilerplate is deployed on devnet:
 ```
-voter-stake-registry:  4Q6WW2ouZ6V3iaNm56MTd5n2tnTm4C5fiH8miFHnAFHo
+plugin-boilerplate:  4Q6WW2ouZ6V3iaNm56MTd5n2tnTm4C5fiH8miFHnAFHo
 spl-governance master: i7BqPFNUvB7yqwVeCRJHrtZVwRsZZNUJTdBm7Vg2cDb
 ```
 
@@ -79,7 +79,7 @@ spl-governance master: i7BqPFNUvB7yqwVeCRJHrtZVwRsZZNUJTdBm7Vg2cDb
 
 To start using the addin, make a governance proposal with the spl-governance
 realm authority to:
-1. Deploy an instance of the voter-stake-registry.
+1. Deploy an instance of the plugin-boilerplate.
 2. Create a registrar for the realm with the `CreateRegistrar` instruction.
 3. Add voting token mints to the registrar by calling the `ConfigureVotingMint`
    instruction as often as desired.
@@ -142,80 +142,80 @@ to access the tokens again.
 
 ## Setup
 
-- [`CreateRegistrar`](programs/voter-stake-registry/src/instructions/create_registrar.rs)
+- [`CreateRegistrar`](programs/plugin-boilerplate/src/instructions/create_registrar.rs)
 
   Creates a Registrar account for a governance realm.
 
-- [`ConfigureVotingMint`](programs/voter-stake-registry/src/instructions/configure_voting_mint.rs)
+- [`ConfigureVotingMint`](programs/plugin-boilerplate/src/instructions/configure_voting_mint.rs)
 
   Enables voting with tokens from a mint and sets the exchange rate for vote weight.
 
 ## Usage
 
-- [`CreateVoter`](programs/voter-stake-registry/src/instructions/create_voter.rs)
+- [`CreateVoter`](programs/plugin-boilerplate/src/instructions/create_voter_weight_record)
 
   Create a new voter account for a user.
 
-- [`CreateDepositEntry`](programs/voter-stake-registry/src/instructions/create_deposit_entry.rs)
+- [`CreateDepositEntry`](programs/plugin-boilerplate/src/instructions/create_deposit_entry.rs)
 
   Create a deposit entry on a voter. A deposit entry is where tokens from a voting mint
   are deposited, and which may optionally have a lockup period and vesting schedule.
 
   Each voter can have multiple deposit entries.
 
-- [`Deposit`](programs/voter-stake-registry/src/instructions/deposit.rs)
+- [`Deposit`](programs/plugin-boilerplate/src/instructions/deposit.rs)
 
   Add tokens to a deposit entry.
 
-- [`Withdraw`](programs/voter-stake-registry/src/instructions/withdraw.rs)
+- [`Withdraw`](programs/plugin-boilerplate/src/instructions/withdraw.rs)
 
   Remove tokens from a deposit entry, either unlocked or vested.
 
-- [`ResetLockup`](programs/voter-stake-registry/src/instructions/reset_lockup.rs)
+- [`ResetLockup`](programs/plugin-boilerplate/src/instructions/reset_lockup.rs)
 
   Re-lock tokens where the lockup has expired, or increase the duration of the lockup or
   change the lockup kind.
 
-- [`InternalTransferLocked`](programs/voter-stake-registry/src/instructions/internal_transfer_locked.rs)
+- [`InternalTransferLocked`](programs/plugin-boilerplate/src/instructions/internal_transfer_locked.rs)
 
   Transfer locked tokens from one deposit entry to another. Useful for splitting off a
   chunk of a "constant" lockup deposit entry that you want to start the unlock process on.
 
-- [`InternalTransferUnocked`](programs/voter-stake-registry/src/instructions/internal_transfer_unlocked.rs)
+- [`InternalTransferUnocked`](programs/plugin-boilerplate/src/instructions/internal_transfer_unlocked.rs)
 
   Transfer unlocked tokens from one deposit entry to another. Useful for splitting off a
   chunk to be locked again in a different deposit entry without having to withdraw and redeposit.
 
-- [`UpdateVoterWeightRecord`](programs/voter-stake-registry/src/instructions/update_voter_weight_record.rs)
+- [`UpdateVoterWeightRecord`](programs/plugin-boilerplate/src/instructions/update_voter_weight_record.rs)
 
   Write the current voter weight to the account that spl-governance can read to
   prepare for voting.
 
-- [`CloseDepositEntry`](programs/voter-stake-registry/src/instructions/close_deposit_entry.rs)
+- [`CloseDepositEntry`](programs/plugin-boilerplate/src/instructions/close_deposit_entry.rs)
 
   Close an empty deposit entry, so it can be reused for a different mint or lockup type.
 
-- [`CloseVoter`](programs/voter-stake-registry/src/instructions/close_voter.rs)
+- [`CloseVoter`](programs/plugin-boilerplate/src/instructions/close_voter.rs)
 
   Close an empty voter, reclaiming rent.
 
 ## Special
 
-- [`Grant`](programs/voter-stake-registry/src/instructions/grant.rs)
+- [`Grant`](programs/plugin-boilerplate/src/instructions/grant.rs)
 
   As the realm authority or mint's grant authority: create a voter (if needed), create a
   new deposit and fund it. This instruction is intended for use with DAO proposals.
 
-- [`Clawback`](programs/voter-stake-registry/src/instructions/clawback.rs)
+- [`Clawback`](programs/plugin-boilerplate/src/instructions/clawback.rs)
 
   As the clawback authority, claim locked tokens from a voter's deposit entry that
   has opted-in to clawback.
 
-- [`UpdateMaxVoteWeight`](programs/voter-stake-registry/src/instructions/update_max_vote_weight.rs)
+- [`UpdateMaxVoteWeight`](programs/plugin-boilerplate/src/instructions/update_max_vote_weight.rs)
 
   Unfinished instruction for telling spl-governance about the total maximum vote weight.
 
-- [`SetTimeOffset`](programs/voter-stake-registry/src/instructions/set_time_offset.rs)
+- [`SetTimeOffset`](programs/plugin-boilerplate/src/instructions/set_time_offset.rs)
 
   Debug instruction for advancing time in tests. Not usable.
 

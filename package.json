@@ -1,10 +1,10 @@
 {
-  "name": "@blockworks-foundation/voter-stake-registry-client",
+  "name": "@civic/plugin-boilerplate-client",
   "version": "0.2.4",
-  "description": "Client for Voter-stake-registry which is a voter weight addin for Solana's spl-governance program.",
+  "description": "Client for plugin-boilerplate which is a voter weight addin for Solana's spl-governance program.",
   "main": "lib/src/index.js",
   "types": "lib/src/index.d.ts",
-  "repository": "https://github.com/blockworks-foundation/voter-stake-registry-client",
+  "repository": "https://github.com/civicteam/plugin-boilerplate-client",
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf dist",
